@@ -15,12 +15,21 @@
 <script>
 import Nav from '@/components/Nav';
 import Menu from '@/components/Menu';
+import {onMounted} from "vue";
+import axios from "axios";
 
 export default {
   name: "Wrapper",
   components: {
     Nav,
     Menu
+  },
+  setup() {
+    onMounted(async () => {
+      const {data} = await axios.get('user');
+
+      console.log(data);
+    })
   }
 }
 </script>
