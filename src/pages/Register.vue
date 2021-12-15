@@ -21,6 +21,7 @@
 <script>
 
 import {ref} from 'vue';
+import axios from 'axios';
 
 export default {
   name: "Register",
@@ -31,14 +32,16 @@ export default {
     const password = ref('');
     const passwordConfirm = ref('');
 
-    const submit = () => {
-      console.log({
+    const submit = async () => {
+      const {data} = await axios.post('http://127.0.0.1:10000/api/register', {
         first_name: firstName.value,
         last_name: lastName.value,
         email: email.value,
         password: password.value,
         password_confirm: passwordConfirm.value
-      })
+      });
+
+      console.log(data)
     }
 
     return {
