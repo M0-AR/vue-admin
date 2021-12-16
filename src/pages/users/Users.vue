@@ -21,25 +21,57 @@
       </tbody>
     </table>
   </div>
+
+  <nav>
+    <ul class="pagination">
+      <li class="page-item">
+        <a class="page-link" href="javascript:void(0)" @click="prev">Previous</a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="javascript:void(0)" @click="next">Next</a>
+      </li>
+    </ul>
+  </nav>
 </template>
 
 <script lang="ts">
-import {onMounted, ref} from "vue";
+import {onMounted, ref, watch} from "vue";
 import axios from "axios";
 
 export default {
   name: "Users",
   setup() {
     const users = ref([]);
+    const page = ref(1);
+    const lastPage = ref(0);
 
-    onMounted(async () => {
-      const {data} = await axios.get('users')
+    const load = async () => {
+      const {data} = await axios.get(`users?page=${page.value}`)
 
       users.value = data.data;
-    })
+      lastPage.value = data.meta.last_page;
+    };
+
+    onMounted(load);
+
+    watch(page, load)
+
+    const next = async () => {
+      if (page.value < lastPage.value) {
+        page.value++;
+      }
+    }
+
+    const prev = async () => {
+      if (page.value > 1) {
+        page.value--;
+      }
+    }
 
     return {
-      users
+      users,
+      next,
+      prev
     }
   }
 }
