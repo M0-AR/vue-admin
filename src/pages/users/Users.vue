@@ -16,7 +16,12 @@
         <td>{{ user.first_name }} {{ user.last_name }}</td>
         <td>{{ user.email }}</td>
         <td>{{ user.role.name }}</td>
-        <td>text</td>
+        <td>
+          <div class="btn-group mr-2">
+            <a href="javascript:void(0)" class="btn btn-sm btn-outline-secondary" @click="del(user.id)">Delete</a>
+          </div>
+        </td>
+
       </tr>
       </tbody>
     </table>
@@ -37,6 +42,7 @@
 <script lang="ts">
 import {onMounted, ref, watch} from "vue";
 import axios from "axios";
+import {User} from "@/models/user";
 
 export default {
   name: "Users",
@@ -68,10 +74,20 @@ export default {
       }
     }
 
+    const del = async (id: number) => {
+      if (confirm('Are you sure?')) {
+        console.log(id)
+        await axios.delete(`users/${id}`);
+
+        users.value = users.value.filter((u: User) => u.id !== id)
+      }
+    }
+
     return {
       users,
       next,
-      prev
+      prev,
+      del
     }
   }
 }
