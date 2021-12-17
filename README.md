@@ -1,4 +1,4 @@
-# vue-admin
+# vue-admin, The project is under development.
 
 ## Project setup
 ```
