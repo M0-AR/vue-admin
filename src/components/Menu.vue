@@ -21,6 +21,12 @@
           </router-link>
         </li>
 
+        <li class="nav-item">
+          <router-link to="/products" active-class="active" class="nav-link">
+            Products
+          </router-link>
+        </li>
+
       </ul>
     </div>
   </nav>
