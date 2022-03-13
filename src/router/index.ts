@@ -4,6 +4,7 @@ import Users from '@/pages/users/Users.vue'
 import Register from '@/pages/Register.vue'
 import Wrapper from '@/pages/Wrapper.vue'
 import Login from '@/pages/Login.vue'
+import UserCreate from '@/pages/users/UserCreate.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {path: '/register', component: Register},
@@ -14,6 +15,7 @@ const routes: Array<RouteRecordRaw> = [
     children: [
       {path: '', component: Dashboard},
       {path: '/users', component: Users},
+      {path: '/users/Create', component: UserCreate},
     ]
   }
 ]
