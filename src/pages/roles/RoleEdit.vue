@@ -3,16 +3,16 @@
     <div class="mb-3 mt-3 row">
       <label class="col-sm-2 col-form-label">Name</label>
       <div>
-        <input v-model="form.name" class="form-control" name="name">
+        <input v-model="formData.name" class="form-control" name="name">
       </div>
     </div>
 
     <div class="mb-3 row">
       <label class="col-sm-2 col-form-label">Permissions</label>
       <div class="col-sm-10">
-        <div class="form-check form-check-inline col-3"
-             v-for="permission in permissionList" :key="permission.id">
+        <div class="form-check form-check-inline col-3" v-for="permission in permissionList" :key="permission.id">
           <input class="form-check-input" type="checkbox" :value="permission.id"
+                 :checked="checked(permission.id)"
                  @change="select(permission.id, $event.target.checked)">
           <label class="form-check-label">{{ permission.name }}</label>
         </div>
@@ -26,12 +26,14 @@
 <script lang="ts">
 import {onMounted, reactive, ref} from "vue";
 import axios from "axios";
-import {useRouter} from "vue-router";
+import {useRoute, useRouter} from "vue-router";
+import {Permission} from "@/models/permission";
 
 export default {
-  name: "ColeCreate",
+  name: "ColeEdit",
   setup() {
     const {push} = useRouter();
+    const {params} = useRoute();
 
     const formData = reactive({
       name: '',
@@ -44,6 +46,10 @@ export default {
       const {data} = await axios.get('permissions');
 
       permissionList.value = data;
+
+      const response = await axios.get(`roles/${params.id}`);
+      formData.name = response.data.name;
+      formData.permissions = response.data.permissions.map((p: Permission) => p.id);
     });
 
     const select = (id: number, checked: boolean) => {
@@ -57,16 +63,19 @@ export default {
 
     const submit = async () => {
       console.log(formData);
-      await axios.post('roles', formData);
+      await axios.put(`roles/${params.id}`, formData);
 
       await push('/roles');
     }
 
+    const checked = (id: number) => formData.permissions.some(p => p === id);
+
     return {
-      form: formData,
+      formData,
       permissionList,
       select,
       submit,
+      checked,
     }
   }
 }
