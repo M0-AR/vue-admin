@@ -20,13 +20,14 @@ export default {
   props: {
     lastPage: Number
   },
-  setup(props: { lastPage: number }, context: SetupContext) {
+  setup(props: any | { lastPage: number }, context: SetupContext) {
     const page = ref(1);
 
     watch(page, () => {
       context.emit('page-changed', page.value);
     });
 
+    console.log(props.lastPage)
     const next = async () => {
       if (page.value < props.lastPage) {
         page.value++;
