@@ -34,7 +34,7 @@ export default {
       try {
         const {data} = await axios.get('user');
         console.log(data)
-        await store.dispatch('setUser', data);
+        await store.dispatch('User/setUser', data);
       } catch (e) {
         await router.push('/login')
       }
