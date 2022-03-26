@@ -13,6 +13,7 @@ import Products from '@/pages/products/Products.vue'
 import ProductCreate from '@/pages/products/ProductCreate.vue'
 import ProductEdit from '@/pages/products/ProductEdit.vue'
 import Orders from '@/pages/orders/Orders.vue'
+import Profile from '@/pages/Profile.vue'
 
 
 const routes: Array<RouteRecordRaw> = [
@@ -23,6 +24,7 @@ const routes: Array<RouteRecordRaw> = [
     component: Wrapper,
     children: [
       {path: '', component: Dashboard},
+      {path: '/profile', component: Profile},
       {path: '/users', component: Users},
       {path: '/users/create', component: UserCreate},
       {path: '/users/:id/edit', component: UserEdit},
